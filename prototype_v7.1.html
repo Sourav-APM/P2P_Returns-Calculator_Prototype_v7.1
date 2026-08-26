@@ -1,0 +1,2649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estimate Your P2P Edge Returns | Per Annum</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary-green: #3ca961;
+            --primary-green-light: #f0fdf4;
+            --primary-dark: #111827;
+            --text-gray: #4b5563;
+            --bg-gray: #f9fafb;
+            --border-gray: #e5e7eb;
+            --error-red: #d32f2f;
+            --alert-amber-bg: #fff8e1;
+            --alert-amber-border: #ffe082;
+            --alert-amber-text: #856404;
+            --alert-red-bg: #ffebee;
+            --alert-red-border: #ef9a9a;
+            --alert-blue-bg: #eff6ff;
+            --alert-blue-border: #bfdbfe;
+            --alert-blue-text: #1e40af;
+
+            /* Risk Badges */
+            --risk-conservative-bg: #e6f4ea;
+            --risk-conservative-text: #137333;
+            --risk-moderate-bg: #fef7e0;
+            --risk-moderate-text: #b06000;
+            --risk-aggressive-bg: #fce8e6;
+            --risk-aggressive-text: #c5221f;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            background-color: #ffffff;
+            color: var(--primary-dark);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* Navbar */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem 5%;
+            border-bottom: 1px solid var(--border-gray);
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+        }
+
+        .logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo-icon {
+            background: var(--primary-dark);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.9rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-gray);
+            font-weight: 500;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a.active {
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-login {
+            padding: 0.5rem 1.25rem;
+            background: #f3f4f6;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+            color: var(--primary-dark);
+        }
+
+        .btn-signup {
+            padding: 0.5rem 1.25rem;
+            background: var(--primary-dark);
+            color: white;
+            border-radius: 6px;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1140px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+            letter-spacing: -0.5px;
+        }
+
+        .page-header h1 span {
+            color: var(--primary-green);
+        }
+
+        .page-header p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+
+        /* Grid */
+        .calc-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.75rem;
+            background: var(--bg-gray);
+            border: 1px solid var(--border-gray);
+            border-radius: 16px;
+            padding: 2rem;
+            align-items: stretch;
+        }
+
+        .input-section,
+        .output-section {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Inputs */
+        .input-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .input-label {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            gap: 0.4rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .amount-input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .amount-input-wrapper span {
+            position: absolute;
+            left: 1rem;
+            font-weight: 600;
+            color: var(--text-gray);
+        }
+
+        .amount-input {
+            width: 100%;
+            padding: 0.85rem 1rem 0.85rem 2.25rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border: 2px solid var(--border-gray);
+            border-radius: 8px;
+            outline: none;
+            background: white;
+            transition: border-color 0.2s;
+        }
+
+        .amount-input:focus {
+            border-color: var(--primary-green);
+        }
+
+        .amount-input.error {
+            border-color: var(--error-red) !important;
+        }
+
+        .chips {
+            display: flex;
+            gap: 0.4rem;
+            margin-top: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .chip {
+            padding: 0.35rem 0.75rem;
+            background: white;
+            border: 1px solid var(--border-gray);
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-weight: 500;
+        }
+
+        .chip:hover {
+            border-color: var(--primary-green);
+        }
+
+        .left-error-container {
+            min-height: 44px;
+            margin-top: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .left-error-box {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.78rem;
+            font-weight: 500;
+        }
+
+        .left-error-box.error-theme {
+            background: var(--alert-red-bg);
+            border: 1px solid var(--alert-red-border);
+            color: var(--error-red);
+        }
+
+        .left-error-box.amber-theme {
+            background: var(--alert-amber-bg);
+            border: 1px solid var(--alert-amber-border);
+            color: var(--alert-amber-text);
+        }
+
+        .left-error-box .fix-pill-btn {
+            background: white;
+            border: 1px solid var(--error-red);
+            color: var(--error-red);
+            padding: 2px 8px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.72rem;
+            font-weight: 700;
+            white-space: nowrap;
+            margin-left: 0.5rem;
+        }
+
+        /* Independent RBI Notices */
+        .rbi-notice-box {
+            display: none;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 6px;
+            padding: 0.5rem 0.75rem;
+            margin-top: 0.5rem;
+            font-size: 0.78rem;
+            font-weight: 500;
+        }
+
+        .rbi-notice-box.amber-theme {
+            background: var(--alert-amber-bg);
+            border: 1px solid var(--alert-amber-border);
+            color: var(--alert-amber-text);
+        }
+
+        .rbi-notice-box.red-theme {
+            background: var(--alert-red-bg);
+            border: 1px solid var(--alert-red-border);
+            color: var(--error-red);
+        }
+
+        /* Plan Selection Cards */
+        .plan-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .plan-card {
+            background: white;
+            border: 2px solid var(--border-gray);
+            border-radius: 10px;
+            padding: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 155px;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+
+        .plan-card:hover {
+            border-color: #a7f3d0;
+        }
+
+        .plan-card.active {
+            border-color: var(--primary-green);
+            background: var(--primary-green-light);
+            box-shadow: 0 2px 8px rgba(60, 169, 97, 0.1);
+        }
+
+        .plan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 0.25rem;
+            height: 32px;
+        }
+
+        .plan-title {
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--primary-dark);
+            line-height: 1.25;
+        }
+
+        .plan-metrics {
+            display: flex;
+            flex-direction: column;
+            gap: 0.45rem;
+            font-size: 0.78rem;
+            color: var(--text-gray);
+        }
+
+        .plan-metric-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .plan-metric-val {
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .risk-badge {
+            font-size: 0.7rem;
+            font-weight: 800;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            display: inline-block;
+        }
+
+        .risk-badge.conservative {
+            background-color: var(--risk-conservative-bg);
+            color: var(--risk-conservative-text);
+        }
+
+        .risk-badge.moderate {
+            background-color: var(--risk-moderate-bg);
+            color: var(--risk-moderate-text);
+        }
+
+        .risk-badge.aggressive {
+            background-color: var(--risk-aggressive-bg);
+            color: var(--risk-aggressive-text);
+        }
+
+        .plan-footer {
+            margin-top: 0.4rem;
+            padding-top: 0.4rem;
+            border-top: 1px dashed var(--border-gray);
+            height: 28px;
+            display: flex;
+            align-items: center;
+        }
+
+        .min-badge {
+            font-size: 0.7rem;
+            color: var(--text-gray);
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        .tenure-warning-banner {
+            background: #fff8e1;
+            border: 1px solid #ffe082;
+            border-left: 4px solid #f59e0b;
+            border-radius: 8px;
+            padding: 0.75rem 0.9rem;
+            margin-top: 0.75rem;
+            font-size: 0.78rem;
+            color: #78350f;
+            display: flex;
+            gap: 0.6rem;
+            align-items: flex-start;
+            line-height: 1.45;
+        }
+
+        .tenure-warning-icon {
+            font-size: 1rem;
+            flex-shrink: 0;
+        }
+
+        .growth-plus-info-banner {
+            background: var(--alert-blue-bg);
+            border: 1px solid var(--alert-blue-border);
+            border-left: 4px solid #2563eb;
+            border-radius: 8px;
+            padding: 0.75rem 0.9rem;
+            margin-top: 0.5rem;
+            font-size: 0.78rem;
+            color: var(--alert-blue-text);
+            display: none;
+            flex-direction: column;
+            gap: 0.4rem;
+            line-height: 1.45;
+        }
+
+        /* Lending Tenure Slider */
+        .lending-tenure-section {
+            display: none;
+            margin-top: 0.75rem;
+            margin-bottom: 0.75rem;
+            background: white;
+            border: 1px solid var(--border-gray);
+            border-radius: 8px;
+            padding: 0.85rem 0.9rem;
+        }
+
+        .lending-tenure-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.7rem;
+        }
+
+        .lending-tenure-title {
+            font-size: 0.82rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .lending-tenure-value {
+            font-size: 0.8rem;
+            font-weight: 800;
+            color: var(--primary-green);
+            background: var(--primary-green-light);
+            border: 1px solid #bbf7d0;
+            padding: 0.2rem 0.55rem;
+            border-radius: 6px;
+            white-space: nowrap;
+        }
+
+        .tenure-slider-wrap {
+            width: 100%;
+        }
+
+        .tenure-slider {
+            width: 100%;
+            height: 5px;
+            appearance: none;
+            -webkit-appearance: none;
+            background: #d1d5db;
+            border-radius: 5px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .tenure-slider::-webkit-slider-thumb {
+            appearance: none;
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary-green);
+            border: 3px solid white;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+            cursor: pointer;
+        }
+
+        .tenure-slider::-moz-range-thumb {
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: var(--primary-green);
+            border: 3px solid white;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+            cursor: pointer;
+        }
+
+        .tenure-slider-labels {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 0.45rem;
+            font-size: 0.68rem;
+            color: var(--text-gray);
+            font-weight: 500;
+        }
+
+        /* Plan Info Banner */
+        .plan-info-banner {
+            background: var(--alert-blue-bg);
+            border: 1px solid var(--alert-blue-border);
+            border-left: 4px solid #2563eb;
+            border-radius: 8px;
+            padding: 0.75rem 0.9rem;
+            margin-top: 0.65rem;
+            font-size: 0.78rem;
+            color: var(--alert-blue-text);
+            display: none;
+            flex-direction: column;
+            gap: 0.4rem;
+            line-height: 1.45;
+        }
+
+        /* Output Card */
+        .results-box {
+            background: white;
+            border: 1px solid var(--border-gray);
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.04);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .hero-metric-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            height: 76px;
+            box-sizing: border-box;
+        }
+
+        .hero-label {
+            font-size: 0.78rem;
+            color: var(--text-gray);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-bottom: 0.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+        }
+
+        .hero-value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--primary-green);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .metrics-top-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .metric-card-half {
+            background: white;
+            border: 1px solid var(--border-gray);
+            border-radius: 8px;
+            padding: 0.75rem;
+            height: 82px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-sizing: border-box;
+        }
+
+        .metric-card-full {
+            background: white;
+            border: 1px solid var(--border-gray);
+            border-radius: 8px;
+            padding: 0.75rem 0.9rem;
+            height: 64px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            box-sizing: border-box;
+        }
+
+        .metric-card-full.highlight-card {
+            background: #f0fdf4;
+            border-color: #bbf7d0;
+        }
+
+        .metric-card-label {
+            font-size: 0.75rem;
+            color: var(--text-gray);
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            line-height: 1.2;
+        }
+
+        .metric-card-val {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            font-variant-numeric: tabular-nums;
+        }
+
+        .metric-card-val.highlight {
+            color: var(--primary-green);
+            font-size: 1rem;
+        }
+
+        /* Schedule Accordion & Table Styling */
+        .schedule-header-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 0.35rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--primary-dark);
+        }
+
+        .schedule-toggle {
+            width: 100%;
+            background: none;
+            border: none;
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--primary-dark);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-top: 1px solid var(--border-gray);
+            margin-top: 0.25rem;
+        }
+
+        .schedule-content {
+            display: none;
+            padding: 0;
+            background: white;
+            border: 1px solid #cbd5e1;
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
+            max-height: 260px;
+            overflow-y: auto;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
+        }
+
+        .schedule-content.open {
+            display: block;
+        }
+
+        .schedule-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.82rem;
+            text-align: center;
+        }
+
+        .schedule-table th,
+        .schedule-table td {
+            padding: 0.65rem 0.85rem;
+            border: 1px solid #e2e8f0;
+        }
+
+        .schedule-table th {
+            background: #f1f5f9;
+            font-weight: 700;
+            color: #1e293b;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .schedule-table td {
+            font-variant-numeric: tabular-nums;
+            color: #334155;
+            font-weight: 500;
+        }
+
+        .schedule-table tbody tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .schedule-table tbody tr:hover {
+            background-color: #f1f5f9;
+        }
+
+        .cta-btn {
+            width: 100%;
+            padding: 0.85rem;
+            background: var(--primary-green);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 0.5rem;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            box-sizing: border-box;
+            transition: background-color 0.2s;
+        }
+
+        .cta-btn:hover {
+            background: #2f855a;
+        }
+
+        .cta-btn.disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+
+        /* Notes Card */
+        .notes-card {
+            font-size: 0.78rem;
+            color: #334155;
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            border-left: 4px solid #0284c7;
+            border-radius: 8px;
+            padding: 0.9rem 1rem;
+            margin-top: 1rem;
+            line-height: 1.55;
+        }
+
+        .notes-title {
+            font-weight: 700;
+            font-size: 0.85rem;
+            color: #0369a1;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .notes-list {
+            padding-left: 1.2rem;
+        }
+
+        .notes-list li {
+            margin-bottom: 0.35rem;
+        }
+
+        /* Tooltip */
+        .info-icon {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 14px;
+            height: 14px;
+            background: #e5e7eb;
+            color: #4b5563;
+            border-radius: 50%;
+            font-size: 9px;
+            font-weight: bold;
+            cursor: help;
+            position: relative;
+            flex-shrink: 0;
+        }
+
+        .info-icon:hover::after {
+            content: attr(data-tooltip);
+            position: absolute;
+            bottom: 140%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 220px;
+            background: var(--primary-dark);
+            color: white;
+            padding: 0.65rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.72rem;
+            font-weight: 400;
+            line-height: 1.4;
+            z-index: 100;
+            pointer-events: none;
+            white-space: normal;
+            text-transform: none;
+        }
+
+        @media (max-width: 868px) {
+            .calc-wrapper {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+                padding: 1.25rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .plan-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav class="navbar">
+        <div class="nav-left">
+            <div class="logo">
+                <span class="logo-icon">%</span> Per Annum
+            </div>
+
+            <div class="nav-links">
+                <a href="#">Products</a>
+                <a href="#">Blogs</a>
+                <a href="#">Newsletters</a>
+                <a href="#">FAQs</a>
+                <a href="#" class="active">Calculate Your Returns</a>
+            </div>
+        </div>
+
+        <div class="nav-right">
+            <a href="#" class="btn-login">Log in</a>
+            <a href="#" class="btn-signup">Sign up</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div class="page-header">
+            <h1>Estimate Your <span>P2P Edge</span> Returns</h1>
+            <p>Clear earnings estimates based on your amount and underlying loan performance.</p>
+        </div>
+
+        <div class="calc-wrapper">
+
+            <!-- Left Input Column -->
+            <div class="input-section">
+
+                <div class="input-group">
+
+                    <div class="input-label">
+                        <span>Amount (₹)</span>
+
+                        <span
+                            class="info-icon"
+                            data-tooltip="The amount you want to put into this plan."
+                        >i</span>
+                    </div>
+
+                    <div class="amount-input-wrapper">
+                        <span>₹</span>
+
+                        <input
+                            type="text"
+                            id="invAmount"
+                            class="amount-input"
+                            value=""
+                            placeholder="Enter amount (e.g. ₹1,00,000)"
+                            oninput="handleAmountInput(this)"
+                        >
+                    </div>
+
+                    <div class="chips">
+                        <button class="chip" onclick="setAmount(50000)">₹50k</button>
+                        <button class="chip" onclick="setAmount(100000)">₹1L</button>
+                        <button class="chip" onclick="setAmount(250000)">₹2.5L</button>
+                        <button class="chip" onclick="setAmount(500000)">₹5L</button>
+                    </div>
+
+                    <!-- Other error / validation message -->
+                    <div class="left-error-container">
+                        <div id="leftErrorBox" class="left-error-box">
+                            <span id="leftErrorMsg"></span>
+
+                            <button
+                                id="fixPillBtn"
+                                class="fix-pill-btn"
+                                onclick="autoFixMinAmount()"
+                            ></button>
+                        </div>
+
+                        <!-- Independent 10 Lakh RBI Notice -->
+                        <div
+                            id="rbi10LakhNotice"
+                            class="rbi-notice-box amber-theme"
+                        >
+                            <span>
+                                RBI Notice: Total P2P allocations above ₹10 Lakhs across platforms require a Net Worth Certificate.
+                            </span>
+                        </div>
+
+                        <!-- Independent 50 Lakh RBI Limit Notice -->
+                        <div
+                            id="rbi50LakhNotice"
+                            class="rbi-notice-box amber-theme"
+                        >
+                            <span>
+                                RBI guidelines limit total P2P allocations to ₹50 Lakhs across all platforms.
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Lending Tenure Slider -->
+                    <div
+                        id="lendingTenureSection"
+                        class="lending-tenure-section"
+                    >
+
+                        <div class="lending-tenure-header">
+
+                            <div class="lending-tenure-title">
+                                Lending Tenure
+                            </div>
+
+                            <div
+                                id="lendingTenureValue"
+                                class="lending-tenure-value"
+                            >
+                                0 months
+                            </div>
+
+                        </div>
+
+                        <div class="tenure-slider-wrap">
+
+                            <input
+                                type="range"
+                                id="lendingTenureSlider"
+                                class="tenure-slider"
+                                min="0"
+                                max="60"
+                                step="1"
+                                value="0"
+                                oninput="handleLendingTenureInput(this)"
+                            >
+
+                            <div class="tenure-slider-labels">
+                                <span id="tenureMinLabel">0 month</span>
+                                <span>5 years (60 months)</span>
+                            </div>
+
+                        </div>
+
+                        <!-- Plan Info appears only after slider moves above minimum -->
+                        <div
+                            id="planInfoBanner"
+                            class="plan-info-banner"
+                        >
+
+                            <div id="planInfoTitle"></div>
+
+                            <div>
+                                • You need to re-lend your EMIs to achieve the mentioned Net Returns.
+                            </div>
+
+                            <div>
+                                • Setting up an e-NACH or e-Mandate is mandatory to achieve the projected returns under this plan.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Select Plan -->
+                    <div
+                        class="input-group"
+                        style="margin-bottom:0;"
+                    >
+
+                        <div class="input-label">
+                            Select Plan
+                        </div>
+
+                        <div class="plan-grid">
+
+                            <div
+                                class="plan-card"
+                                data-plan="growthPro"
+                                onclick="selectPlan('growthPro')"
+                            >
+                                <div class="plan-header">
+                                    <div class="plan-title">
+                                        Growth Pro 2 Months
+                                    </div>
+                                </div>
+
+                                <div class="plan-metrics">
+                                    <div class="plan-metric-row">
+                                        <span>Risk Category:</span>
+                                        <span class="risk-badge moderate">
+                                            Moderate
+                                        </span>
+                                    </div>
+
+                                    <div class="plan-metric-row">
+                                        <span>Loan Tenure:</span>
+                                        <span class="plan-metric-val">
+                                            20 to 45 Days
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="plan-footer">
+                                    <span class="min-badge">
+                                        Minimum Amount: ₹50,000
+                                    </span>
+                                </div>
+                            </div>
+
+
+                            <div
+                                class="plan-card"
+                                data-plan="growthX"
+                                onclick="selectPlan('growthX')"
+                            >
+                                <div class="plan-header">
+                                    <div class="plan-title">
+                                        Growth X
+                                    </div>
+                                </div>
+
+                                <div class="plan-metrics">
+                                    <div class="plan-metric-row">
+                                        <span>Risk Category:</span>
+                                        <span class="risk-badge aggressive">
+                                            Aggressive
+                                        </span>
+                                    </div>
+
+                                    <div class="plan-metric-row">
+                                        <span>Loan Tenure:</span>
+                                        <span class="plan-metric-val">
+                                            20 to 45 Days
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="plan-footer">
+                                    <span class="min-badge">
+                                        Minimum Amount: ₹1,00,000
+                                    </span>
+                                </div>
+                            </div>
+
+
+                            <div
+                                class="plan-card"
+                                data-plan="growthPro6M"
+                                onclick="selectPlan('growthPro6M')"
+                            >
+                                <div class="plan-header">
+                                    <div class="plan-title">
+                                        Growth Pro 6 Months
+                                    </div>
+                                </div>
+
+                                <div class="plan-metrics">
+                                    <div class="plan-metric-row">
+                                        <span>Risk Category:</span>
+                                        <span class="risk-badge moderate">
+                                            Moderate
+                                        </span>
+                                    </div>
+
+                                    <div class="plan-metric-row">
+                                        <span>Loan Tenure:</span>
+                                        <span class="plan-metric-val">
+                                            3 to 6 Months
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="plan-footer">
+                                    <span class="min-badge">
+                                        Minimum Amount: ₹50,000
+                                    </span>
+                                </div>
+                            </div>
+
+
+                            <div
+                                class="plan-card"
+                                data-plan="growthPlus"
+                                onclick="selectPlan('growthPlus')"
+                            >
+                                <div class="plan-header">
+                                    <div class="plan-title">
+                                        Growth Plus
+                                    </div>
+                                </div>
+
+                                <div class="plan-metrics">
+                                    <div class="plan-metric-row">
+                                        <span>Risk Category:</span>
+                                        <span class="risk-badge conservative">
+                                            Conservative
+                                        </span>
+                                    </div>
+
+                                    <div class="plan-metric-row">
+                                        <span>Loan Tenure:</span>
+                                        <span class="plan-metric-val">
+                                            1 to 9 Months
+                                        </span>
+                                    </div>
+                                </div>
+
+                                <div class="plan-footer">
+                                    <span class="min-badge">
+                                        Minimum Amount: ₹50,000
+                                    </span>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="tenure-warning-banner">
+                            <span class="tenure-warning-icon">⚠️</span>
+
+                            <span>
+                                Product tenures mentioned above are indicative only;
+                                actual repayment will be as per borrower's repayment behavior.
+                            </span>
+                        </div>
+
+                        <!-- Existing Growth Plus Banner - unchanged -->
+                        <div
+                            id="growthPlusInfoBanner"
+                            class="growth-plus-info-banner"
+                        >
+
+                            <div>
+                                <strong>Growth Plus Info:</strong>
+                                Growth Plus has been designed to maximise your returns in a hassle-free manner.
+                            </div>
+
+                            <div>
+                                • You need to re-lend your EMIs for at least 10 months to achieve the mentioned Net Returns.
+                            </div>
+
+                            <div>
+                                • Setting up an e-NACH or e-Mandate is mandatory to achieve the projected returns under this plan.
+                            </div>
+
+                            <div>
+                                • Your re-lending will stop after 10 months, and you will receive your Net Repayments over the last 2 to 3 months.
+                            </div>
+
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- Right Output Column -->
+            <div class="output-section">
+
+                <div
+                    class="results-box"
+                    id="mainResultsCard"
+                >
+
+                    <!-- Net Earnings Hero -->
+                    <div class="hero-metric-card">
+
+                        <div class="hero-label">
+                            <span>Net Estimated Earnings</span>
+
+                            <span
+                                class="info-icon"
+                                data-tooltip="The estimated interest you may earn from this plan."
+                            >i</span>
+                        </div>
+
+                        <div
+                            class="hero-value"
+                            id="outEarnings"
+                        >
+                            ₹ --
+                        </div>
+
+                    </div>
+
+
+                    <!-- Top 2-Card Row -->
+                    <div class="metrics-top-row">
+
+                        <div class="metric-card-half">
+
+                            <div class="metric-card-label">
+                                <span>Expected Net Returns</span>
+
+                                <span
+                                    class="info-icon"
+                                    data-tooltip="The estimated return you may earn, shown as a percentage of your input amount."
+                                >i</span>
+                            </div>
+
+                            <div
+                                class="metric-card-val highlight"
+                                id="outNetReturns"
+                            >
+                                --%
+                            </div>
+
+                        </div>
+
+
+                        <div class="metric-card-half">
+
+                            <div class="metric-card-label">
+                                <span>Expected XIRR</span>
+
+                                <span
+                                    class="info-icon"
+                                    data-tooltip="An annual return estimate that considers when your money is put to work and when you receive repayments."
+                                >i</span>
+                            </div>
+
+                            <div
+                                class="metric-card-val"
+                                id="outXIRR"
+                            >
+                                --%
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Full Width Card 1 -->
+                    <div class="metric-card-full">
+
+                        <div class="metric-card-label">
+                            <span>Average Monthly Interest Rate</span>
+
+                            <span
+                                class="info-icon"
+                                data-tooltip="The average interest rate earned on the loans in this plan each month."
+                            >i</span>
+                        </div>
+
+                        <div
+                            class="metric-card-val"
+                            id="outMonthlyRate"
+                        >
+                            --
+                        </div>
+
+                    </div>
+
+
+                    <!-- Full Width Card 2 -->
+                    <div class="metric-card-full highlight-card">
+
+                        <div class="metric-card-label">
+                            <span>Total Estimated Proceeds</span>
+
+                            <span
+                                class="info-icon"
+                                data-tooltip="Your estimated input amount plus the interest you may earn."
+                            >i</span>
+                        </div>
+
+                        <div
+                            class="metric-card-val highlight"
+                            id="outTotal"
+                        >
+                            ₹ --
+                        </div>
+
+                    </div>
+
+
+                    <!-- Schedule Accordion -->
+                    <button
+                        class="schedule-toggle"
+                        onclick="toggleSchedule()"
+                    >
+
+                        <span class="schedule-header-wrapper">
+
+                            <span>
+                                Expected Repayment Schedule
+                            </span>
+
+                            <span
+                                class="info-icon"
+                                data-tooltip="An estimate of when you may receive your input amount and interest back."
+                            >i</span>
+
+                        </span>
+
+                        <span id="arrowIcon">
+                            ▼
+                        </span>
+
+                    </button>
+
+
+                    <div
+                        class="schedule-content"
+                        id="scheduleContent"
+                    >
+
+                        <table
+                            class="schedule-table"
+                            id="scheduleTable"
+                        >
+
+                            <thead id="scheduleTableHead"></thead>
+
+                            <tbody id="scheduleTableBody">
+
+                                <tr>
+
+                                    <td
+                                        colspan="3"
+                                        style="text-align:center; padding:1.25rem; color:#94a3b8;"
+                                    >
+                                        Select a plan to view repayment schedule
+                                    </td>
+
+                                </tr>
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+                    <a
+                        id="ctaBtn"
+                        href="https://www.perannum.money/edge"
+                        target="_blank"
+                        class="cta-btn disabled"
+                    >
+                        Get Started with P2P Edge
+                    </a>
+
+                </div>
+
+
+                <div class="notes-card">
+
+                    <div class="notes-title">
+                        📌 Important Things to Know Before You Get Started:
+                    </div>
+
+                    <ol class="notes-list">
+                        <li>
+                            Net Returns calculated above are net of Platform Fee and Expected NPAs.
+                        </li>
+
+                        <li>
+                            XIRR and Net Returns mentioned above are as per historical returns in similar loan category.
+                        </li>
+
+                        <li>
+                            The calculation is for information purposes only.
+                        </li>
+
+                        <li>
+                            Your repayment will include Principal as well as Interest.
+                        </li>
+
+                        <li>
+                            For detailed Fee Structure and Portfolio Performance, kindly check details on respective pages.
+                        </li>
+                    </ol>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+
+        /* Exact Verified Data Structure strictly based on provided actual data */
+
+        const plans = {
+
+            growthPro: {
+                name: "Growth Pro 2 Months",
+                min: 50000,
+                riskCategory: "Moderate",
+                loanTenure: "20 to 45 Days",
+                monthlyRate: "3.00%",
+                netReturnMin: 0.75,
+                netReturnMax: 1.25,
+                xirrStr: "12-15%",
+                netReturnStr: "0.75% to 1.25%",
+                avgNpaStr: "1.5% to 2%",
+                npaMin: 1.5,
+                npaMax: 2.0,
+                platformFeePct: 0.0,
+                hasSubColumns: true,
+
+                repaymentSchedule: [
+                    {
+                        month: 1,
+                        col1Pct: "80-85%",
+                        col2Pct: "10-15%"
+                    },
+                    {
+                        month: 2,
+                        col1Pct: "15-20%",
+                        col2Pct: "80-85%"
+                    },
+                    {
+                        month: 3,
+                        col1Pct: "-",
+                        col2Pct: "3-5%"
+                    }
+                ]
+            },
+
+
+            growthX: {
+                name: "Growth X",
+                min: 100000,
+                riskCategory: "Aggressive",
+                loanTenure: "20 to 45 Days",
+                monthlyRate: "20%",
+                netReturnMin: 1.50,
+                netReturnMax: 2.00,
+                xirrStr: "15-25%",
+                netReturnStr: "1.50% to 2.00%",
+                avgNpaStr: "10% to 12%",
+                npaMin: 10.0,
+                npaMax: 12.0,
+                platformFeePct: 6.0,
+                hasSubColumns: false,
+                scheduleHeader: "Expected Repayment",
+
+                repaymentSchedule: [
+                    {
+                        month: 1,
+                        pctStr: "70-80%"
+                    },
+                    {
+                        month: 2,
+                        pctStr: "20-35%"
+                    },
+                    {
+                        month: 3,
+                        pctStr: "2-4%"
+                    }
+                ]
+            },
+
+
+            growthPro6M: {
+                name: "Growth Pro 6 Months",
+                min: 50000,
+                riskCategory: "Moderate",
+                loanTenure: "3 to 6 Months",
+                monthlyRate: "36% on Reducing Balance",
+                netReturnMin: 3.00,
+                netReturnMax: 5.00,
+                xirrStr: "13-16%",
+                netReturnStr: "3.00% to 5.00%",
+                avgNpaStr: "4% to 5%",
+                npaMin: 4.0,
+                npaMax: 5.0,
+                platformFeePct: 2.0,
+                hasSubColumns: false,
+                scheduleHeader: "Expected Repayment",
+
+                repaymentSchedule: [
+                    {
+                        month: 1,
+                        pctStr: "15% to 20%"
+                    },
+                    {
+                        month: 2,
+                        pctStr: "15% to 20%"
+                    },
+                    {
+                        month: 3,
+                        pctStr: "15% to 20%"
+                    },
+                    {
+                        month: 4,
+                        pctStr: "15% to 20%"
+                    },
+                    {
+                        month: 5,
+                        pctStr: "15% to 20%"
+                    },
+                    {
+                        month: 6,
+                        pctStr: "10% to 15%"
+                    },
+                    {
+                        month: 7,
+                        pctStr: "5% to 10%"
+                    }
+                ]
+            },
+
+
+            growthPlus: {
+                name: "Growth Plus",
+                min: 50000,
+                riskCategory: "Conservative",
+                loanTenure: "1 to 9 Months",
+                monthlyRate: "36% on Reducing Balance",
+                netReturnMin: 12.00,
+                netReturnMax: 15.00,
+                xirrStr: "13-15%",
+                netReturnStr: "12.00% to 15.00%",
+                avgNpaStr: "4% to 5%",
+                npaMin: 4.0,
+                npaMax: 5.0,
+                platformFeePct: 2.0,
+                hasSubColumns: false,
+                scheduleHeader: "Expected Net Repayment",
+
+                repaymentSchedule: [
+                    {
+                        month: 10,
+                        pctStr: "10-15%"
+                    },
+                    {
+                        month: 11,
+                        pctStr: "20-30%"
+                    },
+                    {
+                        month: 12,
+                        pctStr: "30-40%"
+                    },
+                    {
+                        month: 13,
+                        pctStr: "30-40%"
+                    }
+                ]
+            }
+
+        };
+
+
+        let currentPlanKey = null;
+
+        /* Lending Tenure state */
+        let lendingTenureMonths = 0;
+
+        /*
+         * NEW:
+         * Tracks whether the user has actually moved
+         * the slider above its plan-specific minimum.
+         *
+         * This is reset whenever a new plan is selected.
+         */
+        let lendingTenureChanged = false;
+
+        const MAX_LENDING_TENURE = 60;
+
+        /* Minimum lending tenure for each slider-based plan */
+        const MIN_LENDING_TENURE = {
+            growthPro: 2,
+            growthX: 1,
+            growthPro6M: 6
+        };
+
+        const MAX_RBI_LIMIT = 5000000;
+        const AMBER_RBI_LIMIT = 1000000;
+
+
+        function formatINR(val) {
+
+            return new Intl.NumberFormat('en-IN', {
+                maximumFractionDigits: 0
+            }).format(val);
+
+        }
+
+
+        function parseAmount(valStr) {
+
+            return parseFloat(
+                valStr.replace(/,/g, '')
+            ) || 0;
+
+        }
+
+
+        function isLendingTenurePlan(planKey) {
+
+            return [
+                'growthPro',
+                'growthX',
+                'growthPro6M'
+            ].includes(planKey);
+
+        }
+
+
+        /* Get minimum lending tenure for current plan */
+        function getMinimumLendingTenure(planKey) {
+
+            return MIN_LENDING_TENURE[planKey] || 0;
+
+        }
+
+
+        /* Reset Lending Tenure according to selected plan */
+        function resetLendingTenure() {
+
+            const minTenure =
+                getMinimumLendingTenure(currentPlanKey);
+
+            lendingTenureMonths = minTenure;
+
+            /*
+             * IMPORTANT:
+             * Every time a plan is selected, the slider starts
+             * at its minimum and the info message stays hidden.
+             */
+            lendingTenureChanged = false;
+
+            const slider =
+                document.getElementById('lendingTenureSlider');
+
+            const valueDisplay =
+                document.getElementById('lendingTenureValue');
+
+            const infoBanner =
+                document.getElementById('planInfoBanner');
+
+            const minLabel =
+                document.getElementById('tenureMinLabel');
+
+            slider.min = minTenure;
+            slider.value = minTenure;
+
+            if (minTenure === 0) {
+
+                valueDisplay.textContent = '0 months';
+
+                minLabel.textContent = '0 month';
+
+            }
+
+            else if (minTenure === 1) {
+
+                valueDisplay.textContent = '1 month';
+
+                minLabel.textContent = '1 month';
+
+            }
+
+            else {
+
+                valueDisplay.textContent =
+                    `${minTenure} months`;
+
+                minLabel.textContent =
+                    `${minTenure} months`;
+
+            }
+
+            infoBanner.style.display = 'none';
+
+        }
+
+
+        function setAmount(val) {
+
+            let userExceededLimit = false;
+
+            /*
+             * IMPORTANT:
+             * At ₹50L itself the 50L notice should be shown.
+             * Above ₹50L the input is still capped at ₹50L,
+             * but the 50L notice remains visible.
+             */
+            if (val > MAX_RBI_LIMIT) {
+
+                val = MAX_RBI_LIMIT;
+                userExceededLimit = true;
+
+            }
+
+            document.getElementById('invAmount').value =
+                formatINR(val);
+
+            calculateReturns(
+                userExceededLimit
+            );
+
+        }
+
+
+        function handleAmountInput(input) {
+
+            let sanitized =
+                input.value.replace(/[^0-9]/g, '');
+
+            let val =
+                parseFloat(sanitized) || 0;
+
+            let userExceededLimit = false;
+
+            if (val > MAX_RBI_LIMIT) {
+
+                val = MAX_RBI_LIMIT;
+                userExceededLimit = true;
+
+            }
+
+            input.value =
+                val > 0 ? formatINR(val) : '';
+
+            calculateReturns(
+                userExceededLimit
+            );
+
+        }
+
+
+        function selectPlan(planKey) {
+
+            currentPlanKey = planKey;
+
+            /* Reset slider whenever plan changes */
+            resetLendingTenure();
+
+            document
+                .querySelectorAll('.plan-card')
+                .forEach(card => {
+                    card.classList.remove('active');
+                });
+
+            document
+                .querySelector(`[data-plan="${planKey}"]`)
+                .classList.add('active');
+
+
+            const growthPlusInfoBanner =
+                document.getElementById('growthPlusInfoBanner');
+
+            const lendingTenureSection =
+                document.getElementById('lendingTenureSection');
+
+            const planInfoBanner =
+                document.getElementById('planInfoBanner');
+
+
+            /*
+             * Growth Plus:
+             * Existing Growth Plus behavior remains unchanged.
+             */
+            if (planKey === 'growthPlus') {
+
+                growthPlusInfoBanner.style.display = 'flex';
+
+                lendingTenureSection.style.display = 'none';
+
+                planInfoBanner.style.display = 'none';
+
+            }
+
+            /*
+             * Other 3 plans:
+             * Show Lending Tenure slider.
+             */
+            else {
+
+                growthPlusInfoBanner.style.display = 'none';
+
+                if (isLendingTenurePlan(planKey)) {
+
+                    lendingTenureSection.style.display = 'block';
+
+                } else {
+
+                    lendingTenureSection.style.display = 'none';
+
+                }
+
+                /*
+                 * Always keep the plan info hidden when the plan
+                 * is first selected because the slider is sitting
+                 * at its minimum.
+                 */
+                planInfoBanner.style.display = 'none';
+
+            }
+
+
+            calculateReturns(false);
+
+        }
+
+
+        /*
+         * UPDATED:
+         * Slider handler now shows the info banner ONLY when
+         * the user moves the slider above the minimum value.
+         */
+        function handleLendingTenureInput(input) {
+
+            const minTenure =
+                getMinimumLendingTenure(currentPlanKey);
+
+            let val =
+                parseInt(input.value, 10) || minTenure;
+
+            if (val < minTenure) {
+                val = minTenure;
+            }
+
+            if (val > MAX_LENDING_TENURE) {
+                val = MAX_LENDING_TENURE;
+            }
+
+            lendingTenureMonths = val;
+
+            input.min = minTenure;
+            input.value = lendingTenureMonths;
+
+
+            const valueDisplay =
+                document.getElementById('lendingTenureValue');
+
+            if (lendingTenureMonths === 1) {
+
+                valueDisplay.textContent = '1 month';
+
+            } else {
+
+                valueDisplay.textContent =
+                    `${lendingTenureMonths} months`;
+
+            }
+
+
+            /*
+             * IMPORTANT:
+             * The message is shown only when the current slider
+             * value is GREATER than the minimum.
+             *
+             * At the minimum itself -> hidden.
+             */
+            lendingTenureChanged =
+                lendingTenureMonths > minTenure;
+
+            updatePlanInfoBanner();
+
+            calculateReturns(false);
+
+        }
+
+
+        /*
+         * UPDATED:
+         * Plan Info appears only after the slider is moved
+         * above its initial minimum value.
+         */
+        function updatePlanInfoBanner() {
+
+            const planInfoBanner =
+                document.getElementById('planInfoBanner');
+
+            const planInfoTitle =
+                document.getElementById('planInfoTitle');
+
+            const plan =
+                currentPlanKey
+                    ? plans[currentPlanKey]
+                    : null;
+
+            const minTenure =
+                getMinimumLendingTenure(currentPlanKey);
+
+
+            if (
+                plan &&
+                isLendingTenurePlan(currentPlanKey) &&
+                lendingTenureChanged &&
+                lendingTenureMonths > minTenure
+            ) {
+
+                planInfoTitle.innerHTML = `
+                    <strong>${plan.name} Info:</strong>
+                    ${plan.name} has been designed to maximise your returns in a hassle-free manner.
+                `;
+
+                planInfoBanner.style.display = 'flex';
+
+            } else {
+
+                planInfoBanner.style.display = 'none';
+
+            }
+
+        }
+
+
+        function toggleSchedule() {
+
+            const content =
+                document.getElementById('scheduleContent');
+
+            const arrow =
+                document.getElementById('arrowIcon');
+
+
+            if (content.classList.contains('open')) {
+
+                content.classList.remove('open');
+
+                arrow.textContent = '▼';
+
+            } else {
+
+                content.classList.add('open');
+
+                arrow.textContent = '▲';
+
+            }
+
+        }
+
+
+        function autoFixMinAmount() {
+
+            if (!currentPlanKey) return;
+
+            const plan =
+                plans[currentPlanKey];
+
+            setAmount(plan.min);
+
+        }
+
+
+        function renderRepaymentTable(plan) {
+
+            const thead =
+                document.getElementById('scheduleTableHead');
+
+            const tbody =
+                document.getElementById('scheduleTableBody');
+
+
+            thead.innerHTML = '';
+            tbody.innerHTML = '';
+
+
+            if (!plan) {
+
+                tbody.innerHTML = `
+                    <tr>
+                        <td
+                            colspan="3"
+                            style="text-align:center; padding:1.25rem; color:#94a3b8;"
+                        >
+                            Select a plan to view repayment schedule
+                        </td>
+                    </tr>
+                `;
+
+                return;
+
+            }
+
+
+            if (plan.hasSubColumns) {
+
+                thead.innerHTML = `
+                    <tr>
+                        <th rowspan="2" style="width:20%; vertical-align:middle;">
+                            Month
+                        </th>
+
+                        <th colspan="2" style="text-align:center;">
+                            Expected Repayment
+                        </th>
+                    </tr>
+
+                    <tr>
+                        <th style="width:40%;">
+                            Lending date 1st to 19th
+                        </th>
+
+                        <th style="width:40%;">
+                            Lending Date 20th Onwards
+                        </th>
+                    </tr>
+                `;
+
+
+                plan.repaymentSchedule.forEach(item => {
+
+                    let tr =
+                        document.createElement('tr');
+
+                    tr.innerHTML = `
+                        <td>
+                            <strong>${item.month}</strong>
+                        </td>
+
+                        <td>
+                            ${item.col1Pct}
+                        </td>
+
+                        <td>
+                            ${item.col2Pct}
+                        </td>
+                    `;
+
+                    tbody.appendChild(tr);
+
+                });
+
+            }
+
+            else {
+
+                thead.innerHTML = `
+                    <tr>
+                        <th style="width:30%;">
+                            Month
+                        </th>
+
+                        <th style="width:70%;">
+                            ${plan.scheduleHeader}
+                        </th>
+                    </tr>
+                `;
+
+
+                plan.repaymentSchedule.forEach(item => {
+
+                    let tr =
+                        document.createElement('tr');
+
+                    tr.innerHTML = `
+                        <td>
+                            <strong>${item.month}</strong>
+                        </td>
+
+                        <td>
+                            ${item.pctStr}
+                        </td>
+                    `;
+
+                    tbody.appendChild(tr);
+
+                });
+
+            }
+
+        }
+
+
+        function showLeftMessage(
+            msg,
+            type = 'error',
+            fixButtonText = null
+        ) {
+
+            const leftErrorBox =
+                document.getElementById('leftErrorBox');
+
+            const leftErrorMsg =
+                document.getElementById('leftErrorMsg');
+
+            const fixPillBtn =
+                document.getElementById('fixPillBtn');
+
+
+            leftErrorBox.className =
+                'left-error-box';
+
+
+            if (type === 'error') {
+
+                leftErrorBox.classList.add(
+                    'error-theme'
+                );
+
+            }
+
+            else if (type === 'amber') {
+
+                leftErrorBox.classList.add(
+                    'amber-theme'
+                );
+
+            }
+
+
+            leftErrorMsg.textContent = msg;
+
+
+            if (fixButtonText) {
+
+                fixPillBtn.textContent =
+                    fixButtonText;
+
+                fixPillBtn.style.display =
+                    'inline-block';
+
+            }
+
+            else {
+
+                fixPillBtn.style.display =
+                    'none';
+
+            }
+
+
+            leftErrorBox.style.display =
+                'flex';
+
+        }
+
+
+        function hideLeftMessage() {
+
+            const leftErrorBox =
+                document.getElementById('leftErrorBox');
+
+            leftErrorBox.style.display =
+                'none';
+
+        }
+
+
+        /*
+         * NEW:
+         * The 10L RBI notice is now independent from all
+         * other validation/error messages.
+         */
+        function showRBI10LakhNotice() {
+
+            document.getElementById(
+                'rbi10LakhNotice'
+            ).style.display = 'flex';
+
+        }
+
+
+        function hideRBI10LakhNotice() {
+
+            document.getElementById(
+                'rbi10LakhNotice'
+            ).style.display = 'none';
+
+        }
+
+
+        /*
+         * NEW:
+         * The 50L RBI limit notice is also independent.
+         * Therefore showing it never hides the 10L notice.
+         */
+        function showRBI50LakhNotice() {
+
+            document.getElementById(
+                'rbi50LakhNotice'
+            ).style.display = 'flex';
+
+        }
+
+
+        function hideRBI50LakhNotice() {
+
+            document.getElementById(
+                'rbi50LakhNotice'
+            ).style.display = 'none';
+
+        }
+
+
+        /*
+         * Duration-based return calculation for the 3 plans.
+         */
+        function calculateLendingTenureReturns(
+            amount,
+            plan
+        ) {
+
+            const months =
+                lendingTenureMonths;
+
+
+            const minRate =
+                plan.netReturnMin / 100;
+
+            const maxRate =
+                plan.netReturnMax / 100;
+
+
+            const minReturnPct =
+                plan.netReturnMin * months;
+
+            const maxReturnPct =
+                plan.netReturnMax * months;
+
+
+            const minEarnings =
+                Math.round(
+                    amount *
+                    minRate *
+                    months
+                );
+
+
+            const maxEarnings =
+                Math.round(
+                    amount *
+                    maxRate *
+                    months
+                );
+
+
+            return {
+
+                minEarnings,
+
+                maxEarnings,
+
+                netReturnStr:
+                    `${minReturnPct.toFixed(2)}% to ${maxReturnPct.toFixed(2)}%`
+
+            };
+
+        }
+
+
+        function calculateReturns(
+            userExceededLimit = false
+        ) {
+
+            const invInput =
+                document.getElementById('invAmount');
+
+            const amount =
+                parseAmount(invInput.value);
+
+            const plan =
+                currentPlanKey
+                    ? plans[currentPlanKey]
+                    : null;
+
+            const ctaBtn =
+                document.getElementById('ctaBtn');
+
+
+            invInput.classList.remove('error');
+
+            hideLeftMessage();
+
+
+            /*
+             * IMPORTANT:
+             * RBI notices are now handled independently.
+             * First hide both, then show whichever conditions apply.
+             */
+            hideRBI10LakhNotice();
+            hideRBI50LakhNotice();
+
+
+            renderRepaymentTable(plan);
+
+            /*
+             * updatePlanInfoBanner() now respects the
+             * lendingTenureChanged flag, so simply recalculating
+             * returns will NOT incorrectly show the banner.
+             */
+            updatePlanInfoBanner();
+
+
+            /*
+             * NEW:
+             * ₹10L notice remains visible for every amount
+             * from ₹10L upwards, including ₹50L+.
+             */
+            if (amount >= AMBER_RBI_LIMIT) {
+
+                showRBI10LakhNotice();
+
+            }
+
+
+            /*
+             * NEW:
+             * ₹50L notice is shown at ₹50L itself and whenever
+             * the user tries to enter anything above ₹50L.
+             *
+             * Because this is a separate notice box, the ₹10L
+             * notice remains visible at the same time.
+             */
+            if (
+                amount >= MAX_RBI_LIMIT ||
+                userExceededLimit
+            ) {
+
+                showRBI50LakhNotice();
+
+            }
+
+
+            /* Priority 2: Unselected plan or zero amount */
+            if (amount === 0) {
+
+                if (
+                    currentPlanKey &&
+                    !userExceededLimit
+                ) {
+
+                    showLeftMessage(
+                        "Please enter an amount to calculate returns.",
+                        "error"
+                    );
+
+                }
+
+
+                document.getElementById(
+                    'outEarnings'
+                ).textContent = '₹ --';
+
+
+                document.getElementById(
+                    'outNetReturns'
+                ).textContent =
+                    plan
+                        ? (
+                            isLendingTenurePlan(currentPlanKey)
+                                ? calculateLendingTenureReturns(
+                                    0,
+                                    plan
+                                ).netReturnStr
+                                : plan.netReturnStr
+                        )
+                        : '--%';
+
+
+                document.getElementById(
+                    'outXIRR'
+                ).textContent =
+                    plan
+                        ? plan.xirrStr
+                        : '--%';
+
+
+                document.getElementById(
+                    'outMonthlyRate'
+                ).textContent =
+                    plan
+                        ? plan.monthlyRate
+                        : '--';
+
+
+                document.getElementById(
+                    'outTotal'
+                ).textContent = '₹ --';
+
+
+                ctaBtn.classList.add(
+                    'disabled'
+                );
+
+                return;
+
+            }
+
+
+            /* No plan selected */
+            if (!currentPlanKey) {
+
+                if (!userExceededLimit) {
+
+                    showLeftMessage(
+                        "Please select a plan below to view estimated returns.",
+                        "amber"
+                    );
+
+                }
+
+
+                document.getElementById(
+                    'outEarnings'
+                ).textContent = '₹ --';
+
+                document.getElementById(
+                    'outNetReturns'
+                ).textContent = '--%';
+
+                document.getElementById(
+                    'outXIRR'
+                ).textContent = '--%';
+
+                document.getElementById(
+                    'outMonthlyRate'
+                ).textContent = '--';
+
+                document.getElementById(
+                    'outTotal'
+                ).textContent = '₹ --';
+
+
+                ctaBtn.classList.add(
+                    'disabled'
+                );
+
+                return;
+
+            }
+
+
+            /* Minimum amount */
+            if (amount < plan.min) {
+
+                invInput.classList.add(
+                    'error'
+                );
+
+
+                showLeftMessage(
+                    `Minimum amount for ${plan.name} is ₹${formatINR(plan.min)}`,
+                    "error",
+                    `Enter ₹${formatINR(plan.min)}`
+                );
+
+
+                document.getElementById(
+                    'outEarnings'
+                ).textContent = '₹ --';
+
+
+                document.getElementById(
+                    'outNetReturns'
+                ).textContent =
+                    isLendingTenurePlan(currentPlanKey)
+                        ? calculateLendingTenureReturns(
+                            0,
+                            plan
+                        ).netReturnStr
+                        : plan.netReturnStr;
+
+
+                document.getElementById(
+                    'outXIRR'
+                ).textContent =
+                    plan.xirrStr;
+
+
+                document.getElementById(
+                    'outMonthlyRate'
+                ).textContent =
+                    plan.monthlyRate;
+
+
+                document.getElementById(
+                    'outTotal'
+                ).textContent = '₹ --';
+
+
+                ctaBtn.classList.add(
+                    'disabled'
+                );
+
+                return;
+
+            }
+
+
+            /*
+             * IMPORTANT:
+             * The old single-message ₹10L to ₹50L block has been
+             * removed because the ₹10L notice is now independent.
+             *
+             * It is already handled above, so it stays visible
+             * even when the ₹50L notice is also displayed.
+             */
+
+
+            let minEarnings;
+            let maxEarnings;
+            let netReturnDisplay;
+
+
+            /*
+             * Growth Pro 2 Months,
+             * Growth X,
+             * Growth Pro 6 Months:
+             *
+             * Slider duration is always used.
+             * Each plan has its own minimum tenure.
+             */
+            if (
+                isLendingTenurePlan(currentPlanKey)
+            ) {
+
+                const minTenure =
+                    getMinimumLendingTenure(currentPlanKey);
+
+                /*
+                 * Safety check:
+                 * Never allow calculation below
+                 * the selected plan's minimum tenure.
+                 */
+                if (lendingTenureMonths < minTenure) {
+                    lendingTenureMonths = minTenure;
+                }
+
+                const tenureResult =
+                    calculateLendingTenureReturns(
+                        amount,
+                        plan
+                    );
+
+
+                minEarnings =
+                    tenureResult.minEarnings;
+
+                maxEarnings =
+                    tenureResult.maxEarnings;
+
+                netReturnDisplay =
+                    tenureResult.netReturnStr;
+
+            }
+
+            else {
+
+                /*
+                 * Existing Growth Plus calculation remains unchanged.
+                 */
+                minEarnings =
+                    Math.round(
+                        amount *
+                        (plan.netReturnMin / 100)
+                    );
+
+
+                maxEarnings =
+                    Math.round(
+                        amount *
+                        (plan.netReturnMax / 100)
+                    );
+
+
+                netReturnDisplay =
+                    plan.netReturnStr;
+
+            }
+
+
+            const minTotal =
+                amount + minEarnings;
+
+            const maxTotal =
+                amount + maxEarnings;
+
+
+            /* Display Results */
+
+            document.getElementById(
+                'outEarnings'
+            ).textContent =
+                `₹${formatINR(minEarnings)} - ₹${formatINR(maxEarnings)}`;
+
+
+            document.getElementById(
+                'outNetReturns'
+            ).textContent =
+                netReturnDisplay;
+
+
+            document.getElementById(
+                'outXIRR'
+            ).textContent =
+                plan.xirrStr;
+
+
+            document.getElementById(
+                'outMonthlyRate'
+            ).textContent =
+                plan.monthlyRate;
+
+
+            document.getElementById(
+                'outTotal'
+            ).textContent =
+                `₹${formatINR(minTotal)} - ₹${formatINR(maxTotal)}`;
+
+
+            ctaBtn.classList.remove(
+                'disabled'
+            );
+
+        }
+
+
+        /* Initial state */
+        resetLendingTenure();
+
+        calculateReturns();
+
+    </script>
+
+</body>
+</html>
